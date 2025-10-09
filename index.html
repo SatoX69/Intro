@@ -236,7 +236,9 @@ font-family: 'Roboto', 'Courier New', Courier, monospace;
 <body class="light-mode">
 
   <div id="loading-overlay">
-    <div class="loader-text">Enhancing the viewing experience</div>
+    <div class="loader-text">
+      re:Inception
+    </div>
     <div class="spinner"></div>
   </div>
 
@@ -245,7 +247,7 @@ font-family: 'Roboto', 'Courier New', Courier, monospace;
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
           <div class="flex items-center space-x-4">
-            <img class="h-12 w-12 rounded-full shadow-avatar" src="assets/maher.jpg" alt="Maher's profile picture">
+            <img class="h-12 w-12 rounded-full shadow-avatar" src="assets/gb_new_un.jpg" alt="Maher's profile picture">
             <span class="fancy-text text-2xl tracking-tight" id="typed-name"></span>
           </div>
           <nav class="hidden md:flex items-center space-x-8">
@@ -295,10 +297,18 @@ I'm an introverted person who knows a lot but tends to keep it to myself.
 You'll usually find me quietly focused, doing my own thing with full commitment.
 I don’t really play games — I prefer diving into literature and occasionally writing code.
             </p>
+            <p>I got married in September of 2025</p>
             <p>
-              I enjoy watching action anime and reading manga. Some of my favorites include Sun Ken Rock and Origin by Boichi. I also really like reading Webtoons and novels.
+            I enjoy watching action anime and reading man(ga,hwa,hua) and novels.
+            I really love Bad Apple (The song), especially the saymaxwell version.
+            I also have a deep interest in AI and its applications.
+            I primarily consume English content.
             </p>
-            <p>You can check my manga activity below, I track them on AniList</p>
+            <p>
+            One of my favorite anime series is "Re:Zero"
+            </p><p>My favorite manga is "Origin"
+            </p>
+            <p>You can check my manga/anilist activity below, I track them on AniList and MAL</p>
           </div>
         </section>
 
@@ -400,28 +410,25 @@ I don’t really play games — I prefer diving into literature and occasionally
 const goodfyAhhList = [
   "Maher",
   "Max",
-  "Maz's Admin",
+  "Maz",
+  "Misanthropist",
   "sus",
   "Jsux",
   "Jsus",
-  "x",
-  "Anti Prophet",
-  "Atheist",
-  "Agnostic",
-  "Islamophobe"
+  "x"
 ];
 
       const typedNameEl = document.getElementById('typed-name');
       if(typedNameEl) {
         new Typed('#typed-name', {
           strings: [config.name, ...goodfyAhhList],
-          typeSpeed: 80,
-          backSpeed: 38,
+          typeSpeed: 75,
+          backSpeed: 35,
           loop: true,
           smartBackspace: true,
           showCursor: true,
           cursorChar: '_',
-          startDelay: 250
+          startDelay: 300
         });
       }
 
@@ -481,7 +488,7 @@ const goodfyAhhList = [
 
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       const savedTheme = "light"
-      // hardcoded cuz idk how to css it properly
+      // hardcoded cuz idk how to design it properly
       setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
 
       const anilistQuery = `
@@ -575,8 +582,16 @@ const goodfyAhhList = [
         article.className = "blog-card";
         article.setAttribute("data-aos", "fade-up");
         article.setAttribute("data-aos-delay", index * 100);
+// Fix
 
-        const markdownHtml = marked.parse(activity.text || "", { breaks: true });
+        /*const markdownHtml = marked.parse(
+  (activity.text || "").replace(/\S{19,}/g, w => w.slice(0, 18) + "..."),
+  { breaks: true }
+);*/
+        const truncateLongWords = text =>
+  text.replace(/(?!https?:\/\/|www\.)\b(?![^<]*>)(\S{19,})\b/g, w => w.slice(0, 18) + "...");
+
+const markdownHtml = marked.parse(truncateLongWords(activity.text || ""), { breaks: true });
 
         article.innerHTML = `
           <h3 class="fancy-text text-lg md:text-xl font-semibold text-blue-600 dark:text-blue-400 mb-1">
@@ -674,3 +689,4 @@ fetchLogsAndEntries(config.anilistUserId);
   </script>
 </body>
 </html>
+
